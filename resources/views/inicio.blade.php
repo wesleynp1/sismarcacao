@@ -6,9 +6,7 @@
         <title>SisMarcacao</title>
     </head>
     <body>
-        <h1>Este é o Sistema de Marcação</h1>
-        <h2>O inicio de um trabalho</h2>
-        <p>A propósito, Hello World!</p>
+        <x-header/>
     </body>
 
     <style>
