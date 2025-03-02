@@ -2,8 +2,8 @@
     <h1>Sistema de Marcação de atendimento</h1>
 
     <nav>
-        <a href="#começo">Início</a>
-        <a href="#serviços">Serviços Oferecidos</a>
+        <a href="/">Início</a>
+        <a href="/servicos">Serviços Oferecidos</a>
         <a href="#agenda">Agendamento</a>
     </nav>
 </header>
