@@ -1,4 +1,4 @@
-<form class="form" id="formService" action="createService" method="post" enctype="multipart/form-data">
+<form class="form" id="formService" action="{{ $action }}" method="post" enctype="multipart/form-data">
     @csrf
 
     <img src="" alt="" id="imgPreview">
@@ -6,16 +6,16 @@
     <input type="file" name="image" id="inputImagem"  accept="image/png, image/jpeg">
     
     <label for="inputNome" >Nome</label>
-    <input type="text" name="name" id="inputNome" required>
+    <input type="text" name="name" id="inputNome" value="{{ isset($service) ? $service->name : '' }}" required>
     <br>
 
     <label for="inputPreco">Preço</label>
-    <input type="text" name="price" value="0" id="inputPreco" required>
+    <input type="text" name="price" id="inputPreco" value="{{  isset($service) ?  $service->price : 0 }}" required>
     <br>
 
     <label for="inputDescricao">Descrição</label>
     <div id="editor">
-        <p>Descreva o produto aqui...</p>
+        <p>{!! isset($service) ? $service->description : '' !!}</p>
     </div>           
     <br>
 
@@ -26,11 +26,12 @@
     #formService{
         display: flex;        
         flex-direction: column;
+        margin: 0px 32px;
     }
 </style>
 
 <script>
-    const inputPreco  = document.getElementById("inputPreco");            
+    const inputPreco  = document.getElementById("inputPreco");
     const formulario  = document.getElementById("formService");
 </script>
 <script src="/js/inputPreco.js"></script>

@@ -1,8 +1,8 @@
-formatarDinheiro(inputPreco);//formatação inicial
-
 inputPreco.addEventListener("input", formatarDinheiro);
 formulario.addEventListener("submit",formatarCampoPrecoParaSubmit);            
-            
+
+formatarDinheiro(inputPreco);//formatação inicial
+
 function formatarDinheiro(){
     let numero = parseInt(inputPreco.value.replace(/[^0-9]/g, '')).toString();
     let numeroEmTexto = isNaN(numero) ? 0 : numero;
