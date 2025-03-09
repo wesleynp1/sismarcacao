@@ -8,3 +8,4 @@ Route::get('/', function () {
 });
 
 require __DIR__.'/services.php';
+require __DIR__.'/auth.php';

@@ -1,5 +1,22 @@
 <header>
-    <h1>Sistema de Marcação de atendimento</h1>
+    <div id="titleContainer">
+        <h1>Sistema de Marcação de atendimento</h1>
+
+        @guest
+            <a href="/registrar">Registrar-se</a>
+            <span> | </span>
+            <a href="/login">login</a>
+        @endguest
+
+        @auth
+            <span>{{ auth()->user()->name }},</span>
+            <form action="/logout" method="POST">
+                @csrf
+                <input type="submit" value="Sair">
+            </form>
+            
+        @endauth
+    </div>
 
     <nav>
         <a href="/">Início</a>
@@ -18,6 +35,14 @@
         
         h1{
             margin: 4px;
+        }
+
+        #titleContainer{
+            display: flex;
+
+            h1{
+                flex: 10;
+            }
         }
 
         nav{
