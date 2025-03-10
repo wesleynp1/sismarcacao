@@ -51,6 +51,14 @@ Route::post('/email/verification-notification', [EmailVerificationNotificationCo
     ->middleware(['auth', 'throttle:6,1'])
     ->name('verification.send');
 
+Route::post('/changePassword', [NewPasswordController::class, 'update'])
+->middleware(['auth'])
+->name('change.password');
+
+Route::view('/mudarSenha', "auth.changePassword")
+->middleware(['auth'])
+->name('change.password.form');
+
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
     ->middleware('auth')
     ->name('logout');

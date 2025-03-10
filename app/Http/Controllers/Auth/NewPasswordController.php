@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Auth\Events\PasswordReset;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
@@ -53,6 +52,23 @@ class NewPasswordController extends Controller
             return redirect("login")->with("message","Senha trocada com sucesso!");;
         }catch(Exception $e){
             return back()->with("message","Erro ao trocar a senha:".$e->getMessage());
+        }
+    }
+
+    public function update(Request $request){
+        try{
+            $request->validate([
+                'current_password' => ['required', 'current_password'],
+                'password' => ['required', Rules\Password::defaults(), 'confirmed'],
+            ]);
+
+            $request->user()->update([
+                'password' => Hash::make($request->password)
+            ]);
+
+            return redirect("/")->with("message","Senha atualizada com sucesso!");
+        }catch(Exception $e){
+            return back()->with("error","Erro ao alterar a senha: ".$e->getMessage());
         }
     }
 }

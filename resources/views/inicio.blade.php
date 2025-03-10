@@ -8,7 +8,14 @@
     </head>
     <body>
         <x-header/>        
-        <a href="novoServico">novoServico(provisório)</a>                    
+        @auth
+        <a href="/novoServico">
+            <p>novoServico(provisório)</p>
+        </a>        
+        <a href="/mudarSenha">
+            <p>mudarSenha(provisório)</p>
+        </a>        
+        @endauth
     </body>
     <x-message/>
 </html>

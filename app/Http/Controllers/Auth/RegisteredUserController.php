@@ -40,7 +40,7 @@ class RegisteredUserController extends Controller
 
             Auth::login($user);
 
-            return redirect("/")->with("messege","usuário registrador com sucesso!");
+            return redirect("/")->with("message","usuário registrador com sucesso!");
         }catch(Exception $e){
             return "erro".$e->getMessage();
         }

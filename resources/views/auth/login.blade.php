@@ -30,5 +30,6 @@
                 request()->session()->forget('error');
             @endphp
         @endif
+        <x-message/>
     </body>
 </html>

@@ -20,7 +20,18 @@
             <label for="inputPassword">Senha</label>
             <input type="password" name="password" id="inputPassword" placeholder="insira sua senha aqui..." required>
 
-            <input type="submit" value="ENTRAR">           
+            <label for="inputPassword">Senha</label>
+            <input type="password" name="password_confirmation" id="inputPasswordConfirmation" placeholder="insira novamente sua senha aqui..." required>
+
+            <input type="submit" value="ENTRAR">
         </form>
+
+        @if(Session::has("error"))
+            <p class="falha">Erro:{{Session::get('error')}}</p>
+            @php
+                request()->session()->forget('error');
+            @endphp
+        @endif
+        <x-message/>
     </body>
 </html>

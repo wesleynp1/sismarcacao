@@ -15,8 +15,10 @@
                     <p>R$ {{ str_replace(".",",",$service->price) }}</p>
                     <img src="{{ asset($service->image) }}" alt="">
                     <p>{!! $service->description !!}</p>
-                    <a href="/deletarServico/{{ $service->id }}">deletar</a>
-                    <a href="/editarServico/{{ $service->id }}">editar</a>
+                    @auth
+                        <a href="/deletarServico/{{ $service->id }}">deletar</a>
+                        <a href="/editarServico/{{ $service->id }}">editar</a>
+                    @endauth
                 </div>
             @endforeach
         </div>

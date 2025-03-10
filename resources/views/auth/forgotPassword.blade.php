@@ -16,6 +16,8 @@
 
             <input type="submit" value="ENVIAR E-MAIL">
         </form>
+        <p>Te enviaremos um link por email, basta clicar nele</p> 
+        <p>DICA: se não encontrá-lo na sua caixa de email verifique a caixa de SPAM</p>
 
         <x-message/>
     </body>

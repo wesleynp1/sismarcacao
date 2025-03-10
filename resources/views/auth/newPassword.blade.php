@@ -15,10 +15,10 @@
             <input type="hidden" name="email" value="{{ $email }}">
 
             <label for="inputPassword">Nova Senha</label>
-            <input type="password" name="password" id="inputPassword" placeholder="insira seu email aqui..." required>
+            <input type="password" name="password" id="inputPassword" placeholder="insira sua nova senha aqui..." required>
 
             <label for="inputPassword">Repita Nova Senha</label>
-            <input type="password" name="password_confirmation" id="inputPassword" placeholder="insira seu email aqui..." required>
+            <input type="password" name="password_confirmation" id="inputPassword" placeholder="insira novamente sua nova senha aqui..." required>
 
             <input type="submit" value="Redefinir Senha">
         </form>
