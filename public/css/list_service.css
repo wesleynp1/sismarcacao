@@ -1,0 +1,36 @@
+#newServiceButton{
+    color: white;
+    background-color: rgba(0, 255, 0, 0.5);
+    padding: 16px 0px;
+}
+
+#container-services{
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    flex-direction: row;
+
+    .service {
+        a{
+            display: flex;
+            flex-direction: column;
+            background-color: rgba(100,100,100,0.8);
+            margin: 4px;
+            max-width: 320px;
+            width: 40vw;
+            
+    
+            text-decoration: none;
+            word-break: break-all;
+        }
+
+        a:hover{
+            background-color: rgba(100,100,100,0.4);
+            text-decoration: underline;
+        }
+
+        img:hover{
+            opacity: 0.8;
+        }
+    }
+}

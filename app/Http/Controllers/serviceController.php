@@ -23,7 +23,7 @@ class serviceController extends Controller
     }
     
     function readServices(Request $r) : View{
-        return view("services",["services" => service::all()]);
+        return view("service.listServices",["services" => service::all()]);
     }
 
     function updateService(Request $r){
@@ -32,16 +32,21 @@ class serviceController extends Controller
             $this->serviceValidation($r,$service)->save();
             return redirect("/servicos");
         }catch(Exception $e){
-            return "Erro:".$e->getMessage();
+            return redirect("/servicos")->with("message","Erro ao atualizar:".$e->getMessage());
         }
     }
 
     function deleteService(Request $r){
-        return service::destroy($r->idService) == 0 ? "Erro ao deletadar" : "deletado com sucesso!";
+        if (service::destroy($r->idService)){
+            return redirect("/servicos")->with("message","Deletado com sucesso!");
+        }else{
+            return redirect("/servicos")->with("message","Erro ao deletar");
+        }
+        
     }
 
     function updateServiceForm(Request $r){
-        return view("updateService",["service" => service::find($r->idService)]);
+        return view("service.updateService",["service" => service::find($r->idService)]);
     }
 
     /** 
@@ -90,5 +95,12 @@ class serviceController extends Controller
         if($sizeImage[0]>1080 || $sizeImage[1]>1080){
             throw new Exception("Tamanho de imagem não permitido");
         }
+    }
+
+    /* 
+    *Confirm page for deleting services
+    */
+    function deleteServiceConfirm(Request $r){
+        return View("service.deleteServiceConfirm",["service" => service::findOrFail($r->idService)]);
     }
 }

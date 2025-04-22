@@ -4,6 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="/css/style.css">
+        <link rel="stylesheet" href="/css/login.css">
         <title>SisMarcacao</title>
     </head>
     <body>
@@ -17,10 +18,10 @@
             <label for="inputEmail">E-mail</label>
             <input type="text" name="email" id="inputEmail" placeholder="insira seu email aqui..." required>
 
-            <label for="inputPassword">Senha</label>
+            <label for="inputPassword">Nova Senha</label>
             <input type="password" name="password" id="inputPassword" placeholder="insira sua senha aqui..." required>
 
-            <label for="inputPassword">Senha</label>
+            <label for="inputPassword">Repita sua Senha</label>
             <input type="password" name="password_confirmation" id="inputPasswordConfirmation" placeholder="insira novamente sua senha aqui..." required>
 
             <input type="submit" value="ENTRAR">
