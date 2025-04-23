@@ -13,48 +13,44 @@ inputImagem.onchange = ()=>{
 //Quando ele terminar de ler altera-se o preview
 leitorDeArquivo.onload = ()=>{
 
-    elementoImagem = document.createElement("img");    
+    elementoImagem = document.createElement("img");
+    elementoImagem.src = leitorDeArquivo.result;
 
     elementoImagem.onload = (event)=>{
         
-        //mantem a proporção da imagem para não haver distorções
-        if(elementoImagem.width > larguraMaxima || elementoImagem.height > alturaMaxima){
-            if(elementoImagem.width  == elementoImagem.height){
-                elementoImagem.width,elementoImagem.height = alturaMaxima
-            }else
-            if(elementoImagem.width  >  elementoImagem.height){
-                elementoImagem.height = (elementoImagem.height/elementoImagem.width)*larguraMaxima;
-                elementoImagem.width = larguraMaxima;               
-            }else
-            if((elementoImagem.height  >  elementoImagem.width)){
-                elementoImagem.width = (elementoImagem.width/elementoImagem.height)*alturaMaxima;
+        //redimensiona a imagem e mantem a proporção da imagem para não haver distorções
+        if(elementoImagem.width > elementoImagem.height && elementoImagem.width > larguraMaxima){
+            elementoImagem.height = larguraMaxima*(elementoImagem.height/elementoImagem.width)
+            elementoImagem.width  = larguraMaxima;
+        }else{
+            if(elementoImagem.height > elementoImagem.width && elementoImagem.height > alturaMaxima){
+                elementoImagem.width  = alturaMaxima*(elementoImagem.width/elementoImagem.height)
                 elementoImagem.height = alturaMaxima;
-            }
-        }
+            }else{
+                if(elementoImagem.height = elementoImagem.width && elementoImagem.height > alturaMaxima){
+                    elementoImagem.height = alturaMaxima;
+                    elementoImagem.width = larguraMaxima;
+                }
+            }   
+        }   
 
         //Cria um elemento canvas para redimesionar a imagem
         let meuCanvas = document.createElement("canvas");
+        let contexto = meuCanvas.getContext("2d");
         meuCanvas.width = elementoImagem.width;
         meuCanvas.height = elementoImagem.height;
-        let contexto = meuCanvas.getContext("2d");
         contexto.drawImage(elementoImagem,0,0,elementoImagem.width,elementoImagem.height);
+        
+        
 
         //Exibe a imagem redimensionada
-        urlImagemRedimesionada = meuCanvas.toDataURL();
-        imgPreview.src = urlImagemRedimesionada;
-
-        meuCanvas.toBlob(b=>{
-            let arquivoImagemRedimesionada = new File([b],"imagemCarregadaPeloUsuário.png",{type: "image/png"});
+        meuCanvas.toBlob((b)=>{
+            imgPreview.src = URL.createObjectURL(b)
+            let arquivoImagemRedimesionada = new File([b],"imagemCarregadaPeloUsuário.jpg",{type: "image/jpeg"});
             let dataTransfer = new DataTransfer();
             dataTransfer.items.add(arquivoImagemRedimesionada);
 
             inputImagem.files = dataTransfer.files;
-        })
+        },"image/jpeg")
     }
-
-    elementoImagem.src = leitorDeArquivo.result;
-}
-
-function getProporcaoImagem(img){
-
 }

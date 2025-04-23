@@ -11,15 +11,15 @@
     flex-direction: row;
 
     .service {
+        margin: 4px;
+
         a{
             display: flex;
             flex-direction: column;
-            background-color: rgba(100,100,100,0.8);
-            margin: 4px;
+            background-color: rgba(100,100,100,0.8);            
             max-width: 320px;
-            width: 40vw;
+            width: 40vw;            
             
-    
             text-decoration: none;
             word-break: break-all;
         }

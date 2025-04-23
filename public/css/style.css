@@ -7,3 +7,9 @@ body{
 a:visited , a{
     color: white;
 }
+
+#imgPreview{
+    margin: auto;
+    max-width: 1080px;
+    max-height: 1080px;
+}

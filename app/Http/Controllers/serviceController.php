@@ -93,7 +93,7 @@ class serviceController extends Controller
         //CONFERE TAMANHO DA image
         $sizeImage = getimagesize($fileImage);
         if($sizeImage[0]>1080 || $sizeImage[1]>1080){
-            throw new Exception("Tamanho de imagem não permitido");
+            throw new Exception("Tamanho de imagem não permitido: ".$sizeImage[0]."x".$sizeImage[1]);
         }
     }
 
