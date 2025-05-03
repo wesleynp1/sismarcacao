@@ -21,7 +21,7 @@
     <nav>
         <a href="/">Início</a>
         <a href="/servicos">Serviços Oferecidos</a>
-        <a href="#agenda">Agendamento</a>
+        <a href="/agendamentos">Agendamento</a>
     </nav>
 </header>
 

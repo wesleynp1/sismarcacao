@@ -27,7 +27,7 @@ leitorDeArquivo.onload = ()=>{
                 elementoImagem.width  = alturaMaxima*(elementoImagem.width/elementoImagem.height)
                 elementoImagem.height = alturaMaxima;
             }else{
-                if(elementoImagem.height = elementoImagem.width && elementoImagem.height > alturaMaxima){
+                if(elementoImagem.height == elementoImagem.width && elementoImagem.height > alturaMaxima){
                     elementoImagem.height = alturaMaxima;
                     elementoImagem.width = larguraMaxima;
                 }

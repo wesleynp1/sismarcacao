@@ -10,12 +10,17 @@
         <x-header/>        
         @auth
         <a href="/novoServico">
-            <p>novoServico(provisório)</p>
+            <p>novo Servico(provisório)</p>
         </a>        
         <a href="/mudarSenha">
-            <p>mudarSenha(provisório)</p>
+            <p>mudar Senha(provisório)</p>
         </a>        
         @endauth
-    </body>
+
+        <a href="/novaMarcacao">
+            <p>Nova Marcação(provisório)</p>
+        </a>
+    </body>    
+
     <x-message/>
 </html>
