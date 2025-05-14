@@ -4,30 +4,31 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\DB;
 use App\Models\scheduling;
 use App\Models\service;
+use App\Models\available_datetime;
 use Exception;
-use Illuminate\Support\Facades\DB;
 
 class schedulingController extends Controller
 {
     //CRUD
     function createScheduling(Request $r){
         try{
-            $this->SchedulingValidation($r)->save();
-            return redirect("agendamentos");
+            $newScheduling = $this->SchedulingValidation($r);
+            available_datetime::destroy($newScheduling->scheduled_time);
+            $newScheduling->save();
+            return redirect("agendamentos")->with("message","agendamento realizado com sucesso!");
         }catch(Exception $e){
             return back()->withInput(["name","scheduled_time","serviceId"])->with("message",$e->getMessage());
         }
     }
     
     function readScheduling() : View{
-
         $schedulings = DB::select("SELECT scheduling.id,scheduled_time,created_at,client_name,service.name as service_name from scheduling inner join service where scheduling.serviceId=service.id ORDER BY scheduled_time DESC;");
 
         foreach ($schedulings as $scheduling){
             $scheduling->scheduled_time = date_create($scheduling->scheduled_time);
-
         }
 
         return view("scheduling.listScheduling",["schedules" => $schedulings]);
@@ -37,32 +38,48 @@ class schedulingController extends Controller
         try{
             $schedulingToBeUpdated = scheduling::findOrFail($r->id);
             $this->SchedulingValidation($r,$schedulingToBeUpdated)->save();
-            return redirect("agendamentos");
+
+            if($schedulingToBeUpdated->scheduled_time != $r->scheduled_time){
+                $oldScheduled_time = new available_datetime();
+                $oldScheduled_time->date_time = $schedulingToBeUpdated->scheduled_time;
+                available_datetime::destroy($r->scheduled_time);
+            }
+
+            return redirect("agendamentos")->with("message","agendamento editado com sucesso!");;
         }catch(Exception $e){
             return back()->withInput(["client_name","scheduled_time","serviceId"])->with("message",$e->getMessage());
         }
     }
 
     function deleteScheduling(Request $r){
-        if(scheduling::destroy($r->id)){
-            return redirect("/agendamentos")->with("message","Deletado com sucesso!");;
-        }else{
-            return redirect("/agendamentos")->with("message","Erro ao deletar");
+        try{
+            $schedulingToDelete = scheduling::findOrFail($r->id);
+            $newAvailableDateTime = new available_datetime();
+            $newAvailableDateTime->date_time = $schedulingToDelete->scheduled_time;
+
+            $newAvailableDateTime->save();
+            $schedulingToDelete->delete();
+            return redirect("/agendamentos")->with("message","Deletado com sucesso!");
+        }catch(Exception $e){
+            return redirect("/agendamentos")->with("message","Erro ao deletar:".$e->getMessage());
         }
     }
 
 
     //FORM's
     function formCreateScheduling() : View {
-        $services = DB::select("SELECT id,name from service;");
-        return view("scheduling.createScheduling",["services"=>$services]);
+        return view("scheduling.createScheduling",[
+            "services"=> DB::select("SELECT id,name from service;"),
+            "datetimes"=> $this->retrieveAvailableDatetime()
+        ]);
     }
 
     function formUpdateScheduling(Request $r){
         try{
             return view("scheduling.updateScheduling",[
-                "scheduling"=>scheduling::findOrFail($r->id),
-                "services" => DB::select("SELECT id,name from service;")
+                "scheduling"=> scheduling::findOrFail($r->id),
+                "services"  => DB::select("SELECT id,name from service;"),
+                "datetimes" => $this->retrieveAvailableDatetime()
             ]);
         }catch(Exception $e){
             return back();
@@ -79,6 +96,18 @@ class schedulingController extends Controller
         }
     }
 
+    function retrieveAvailableDatetime(){
+        $available_datetimes = available_datetime::all();
+
+        $datestimes = [];
+
+        foreach($available_datetimes as $ad){
+            $datestimes[] = date($ad->date_time);
+        }
+
+        return $datestimes;
+    }
+
     //VALIDATION
     function SchedulingValidation(Request $r,$scheduling = new scheduling()){
         
@@ -87,6 +116,7 @@ class schedulingController extends Controller
                 "scheduled_time" => "required | date",
                 "serviceId" => "required"
             ]);
+            available_datetime::findOrFail($r->scheduled_time);
 
             $scheduling->client_name    = $r->client_name;
             $scheduling->scheduled_time = $r->scheduled_time;

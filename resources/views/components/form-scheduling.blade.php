@@ -5,10 +5,6 @@
     <input type="text" name="client_name" id="inputClient" value="{{ isset($scheduling) ? $scheduling->client_name : '' }}" required>
     <br>
 
-    <label for="inputPreco">data</label>
-    <input type="datetime-local" name="scheduled_time" id="inputData" value="{{ isset($scheduling) ? $scheduling->scheduled_time : date_format(date_create(),'') }}" required>
-    <br>
-
     <label for="serviceId">Servico</label>
     <select name="serviceId" id="serviceId">
 
@@ -30,6 +26,20 @@
                 <option value="{{ $service->id }}">{{ $service->name }}</option>
             @endforeach
         @endif
+    </select>
+    <br>
+
+    <label for="select_date">Data</label>
+    <select name="scheduled_time" id="select_date">
+        @if(isset($scheduling->scheduled_time))
+            <option value="{{ $scheduling->scheduled_time }}">{{ $scheduling->scheduled_time }}</option>
+        @endif
+
+        @foreach($datetimes as $datetime)
+            @if(empty($scheduling) || $datetime != $scheduling->scheduled_time)
+                <option value="{{ $datetime }}">{{ $datetime }}</option>
+            @endif
+        @endforeach
     </select>
     <br>
 

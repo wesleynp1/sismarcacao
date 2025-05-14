@@ -9,7 +9,7 @@
     <body>
         <x-header/>
 
-        <x-form-scheduling :services="$services" :scheduling="$scheduling" action="/editarAgendamento/{{$scheduling->id}}"/>
+        <x-form-scheduling :datetimes="$datetimes"  :services="$services" :scheduling="$scheduling" action="/editarAgendamento/{{$scheduling->id}}"/>
         
         <x-message/>
     </body>
