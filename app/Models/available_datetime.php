@@ -11,5 +11,5 @@ class available_datetime extends Model
     public $incrementing = false;
     protected $keyType = 'datetime';
     public $timestamps = false;
-    protected $guarded = ['*'];
+    protected $fillable = ['date_time'];
 }
