@@ -1,14 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="/css/style.css">    
-        <link rel="stylesheet" href="/css/list_scheduling.css"> 
-        <title>SisMarcacao</title>
-    </head>
-    <body>
-        <x-header/>
+<x-main-template extraStyle="/css/list_scheduling.css">
 
         <h2>HORÁRIOS COM CLIENTES MARCADOS</h2>
         <table>
@@ -88,7 +78,4 @@
                     unavailablesCheckbox.value = unavailableDateInput.value + unavailablesCheckbox.value.slice(10,19);                
             }
         </script>
-
-        <x-message/>
-    </body>
-</html>
+</x-main-template>

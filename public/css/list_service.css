@@ -4,6 +4,10 @@
     padding: 16px 0px;
 }
 
+#newServiceButton:hover{    
+    background-color: rgba(0, 150, 0, 0.5);    
+}
+
 #container-services{
     display: flex;
     justify-content: space-around;

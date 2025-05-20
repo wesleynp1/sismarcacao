@@ -1,14 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="/css/style.css">
-        <link rel="stylesheet" href="/css/login.css">
-        <title>SisMarcacao</title>
-    </head>
-    <body>
-        <x-header/>
+<x-main-template extraStyle="/css/login.css">
         <form class="formulario" id="formLogin" action="/registrar" method="POST">
             @CSRF
 
@@ -33,6 +23,4 @@
                 request()->session()->forget('error');
             @endphp
         @endif
-        <x-message/>
-    </body>
-</html>
+</x-main-template>
