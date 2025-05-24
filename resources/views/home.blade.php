@@ -6,7 +6,7 @@
     </a>        
     <a href="/mudarSenha">
         <p>mudar Senha(provisório)</p>
-    </a>        
+    </a>
     @endauth
 
     <a href="/novaMarcacao">

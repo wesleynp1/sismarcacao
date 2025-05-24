@@ -1,7 +1,7 @@
 <x-main-template extraStyle="/css/list_scheduling.css">
 
         <h2>HORÁRIOS COM CLIENTES MARCADOS</h2>
-        <table>
+        <table class=" table table-striped table-responsive ">
             <thead>
                 <th>Datas</th>
                 <th>Horários</th>
@@ -21,7 +21,7 @@
         
         <form action="/agenda/disponibilizar" method="post">
             @csrf
-            <table>
+            <table class="text-center table table-striped table-responsive">
                 <thead>
                     <tr>
                         
@@ -41,7 +41,7 @@
                                 <input 
                                 type="checkbox" 
                                 name="newAvailableDatetime[0]"
-                                value="{{ date('Y-m-d 00:00:00')}}" 
+                                value="{{ date('Y-m-d 00:00:00')}}"
                                 id="'date0'" 
                                 class="unavailables">
                         </td>
@@ -75,7 +75,7 @@
 
             unavailableDateInput.onchange = (e)=>{
                 for(let unavailablesCheckbox of unavailablesCheckboxes)
-                    unavailablesCheckbox.value = unavailableDateInput.value + unavailablesCheckbox.value.slice(10,19);                
+                    unavailablesCheckbox.value = unavailableDateInput.value + unavailablesCheckbox.value.slice(10,19);             
             }
         </script>
 </x-main-template>

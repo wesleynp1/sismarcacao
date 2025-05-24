@@ -1,68 +1,27 @@
-<header>
-    <div id="titleContainer">
-        <h1>Sistema de Marcação de atendimento</h1>
+<header id="mainHeader" class="container-fluid bg-dark">
+    <div id="titleContainer" class="row">
 
-        @guest
-            <a href="/registrar">Registrar-se</a>
-            <span> | </span>
-            <a href="/login">login</a>
-        @endguest
+        <h1 class="col-10 text-center text-white">Sistema de Marcação de atendimento</h1>
 
-        @auth
-            <span>{{ auth()->user()->name }},</span>
-            <form action="/logout" method="POST">
-                @csrf
-                <input type="submit" value="Sair">
-            </form>
-            
-        @endauth
+        <div id="loginContainer" class="col-2">
+            @guest
+                <a href="/login">login</a>
+            @endguest
+
+            @auth
+                <span>{{ auth()->user()->name }},</span>
+                <form action="/logout" method="POST">
+                    @csrf
+                    <input type="submit" value="Sair">
+                </form>                
+            @endauth        
+        </div>
     </div>
 
-    <nav>
-        <a href="/">Início</a>
-        <a href="/servicos">Serviços Oferecidos</a>
-        <a href="/agendamentos">Marcações</a>
-        <a href="/agenda">Agenda</a>
+    <nav class="row text-center justify-content-between">
+        <a href="/"             class="col mb-1">Início    </a>
+        <a href="/servicos"     class="col mb-1  mx-2">Serviços  </a>
+        <a href="/agendamentos" class="col mb-1  me-2">Marcações </a>
+        <a href="/agenda"       class="col mb-1">Agenda    </a>
     </nav>
 </header>
-
-<style>
-    header{ 
-        flex: content;
-        background:rgba(16,16,16,0.5);
-        padding: 8px;
-        border-radius: 16px;
-        justify-content: center;
-        
-        h1{
-            margin: 4px;
-        }
-
-        #titleContainer{
-            display: flex;
-
-            h1{
-                flex: 10;
-            }
-        }
-
-        nav{
-            display: flex;
-            justify-content: space-around;
-
-            a{
-                flex: 1;
-                text-decoration: none;
-                background:rgba(100,100,100,0.5);
-                color: white;
-                border-radius: 8px;
-                margin: 0px 2px;
-            }
-
-            a:hover{
-                background:rgba(200,200,200,0.5);
-                color: black;                
-            }
-        }  
-    }
-</style>

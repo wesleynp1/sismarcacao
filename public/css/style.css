@@ -1,15 +1,30 @@
-body{
-    background-color: darkblue;
-    color: white;
-    text-align: center;
+:root{
+    --bs-breakpoint-xs: 400;
+
+    --bs-body-text-align: center;
+    --bs-body-bg: rgb(18, 18, 128);
+    --bs-body-color: rgb(255, 255, 255);
+
+    --bs-link-color-rgb: 255,255,255;
+    --bs-heading-color: rgb(255,255,255);
+    
+    a{
+        text-decoration: none;
+    }
+
+
+    h1,h2{
+        text-align: center;
+    }
+    
 }
 
-a:visited , a{
-    color: white;
-}
+nav a:hover {
+        background-color: black;        
+        background-color: rgba(0,0,0,0.2);
+    }
 
-#imgPreview{
-    margin: auto;
-    max-width: 1080px;
-    max-height: 1080px;
+nav a{
+    border-radius: 4px;
+    background-color: rgba(0,0,0,0.5);
 }

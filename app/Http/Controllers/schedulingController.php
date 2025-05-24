@@ -116,7 +116,10 @@ class schedulingController extends Controller
                 "scheduled_time" => "required | date",
                 "serviceId" => "required"
             ]);
-            available_datetime::findOrFail($r->scheduled_time);
+
+            if( isset($scheduling->scheduled_time) && $scheduling->scheduled_time != $r->scheduled_time){
+                available_datetime::findOrFail($r->scheduled_time);
+            }
 
             $scheduling->client_name    = $r->client_name;
             $scheduling->scheduled_time = $r->scheduled_time;
