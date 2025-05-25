@@ -12,7 +12,7 @@
                 <div class="p-1 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4">
                     <div class="service h-100">
                         <div class="d-flex flex-column">
-                            <a href="" class="row h-100 container-fluid text-wrap text-break text-start ">
+                            <a href="/novaMarcacao/{{ $service->id }}" class="row h-100 container-fluid text-wrap text-break text-start ">
                                 <div class="col-6 d-flex align-items-center">
                                     <img src="{{ asset($service->image) }}" alt="" class="img-fluid"/>
                                 </div>

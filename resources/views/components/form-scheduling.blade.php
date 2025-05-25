@@ -1,3 +1,21 @@
+@php
+    //SET THE FIRST SERVICE SHOWN
+
+    if( isset($scheduling->serviceId) || isset($serviceIntentedId) )
+    {
+        $criterion= isset($scheduling->serviceId) ? $scheduling->serviceId : $serviceIntentedId;
+
+        $oldFirst = $services[0];
+
+        foreach ($services as $key=>$service){
+            if($service->id == $criterion){
+                $services[0] = $service;
+                $services[$key] = $oldFirst;
+            } 
+        }
+    }
+@endphp
+
 <form class="form container mt-2" id="formScheduling" action="{{ $action }}" method="post" enctype="multipart/form-data">
     @csrf
 
@@ -9,25 +27,9 @@
     <div class="mb-3">
         <label for="serviceId" class="form-label m-0">Servico</label>
         <select name="serviceId" id="serviceId" class="form-select">
-
-            @if(isset($scheduling))
-                @foreach ($services as $service)
-                    @if($service->id==$scheduling->serviceId)
-                    <option value="{{ $service->id }}">{{ $service->name }}</option>
-                    @endif
-                @endforeach
-
-                @foreach ($services as $service)
-                    @if($service->id!=$scheduling->serviceId)
-                    <option value="{{ $service->id }}">{{ $service->name }}</option>
-                    @endif
-                @endforeach
-
-            @else
-                @foreach ($services as $service)
-                    <option value="{{ $service->id }}">{{ $service->name }}</option>
-                @endforeach
-            @endif
+            @foreach ($services as $service)
+                <option value="{{ $service->id }}">{{ $service->name }}</option>
+            @endforeach
         </select>
     </div>
 

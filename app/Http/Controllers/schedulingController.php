@@ -67,8 +67,9 @@ class schedulingController extends Controller
 
 
     //FORM's
-    function formCreateScheduling() : View {
+    function formCreateScheduling(Request $r) : View {
         return view("scheduling.createScheduling",[
+            "serviceIntentedId"=>$r->serviceIntentedId,
             "services"=> DB::select("SELECT id,name from service;"),
             "datetimes"=> $this->retrieveAvailableDatetime()
         ]);
