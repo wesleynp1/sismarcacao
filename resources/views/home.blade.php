@@ -1,16 +1,18 @@
 <x-main-template>
 
     @auth
-    <a href="/novoServico">
-        <p>novo Servico(provisório)</p>
+    <a href="/novoServico" class="btn btn-primary">
+        Criar novo Servico
     </a>        
-    <a href="/mudarSenha">
-        <p>mudar Senha(provisório)</p>
+    <a href="/mudarSenha" class="btn btn-primary">
+        mudar minha Senha
     </a>
     @endauth
 
-    <a href="/novaMarcacao">
-        <p>Nova Marcação(provisório)</p>
+    <a href="/novaMarcacao" class="btn btn-primary">
+        Agendar meu atendimento
     </a>
+
+    <p>Conteúdo chamativo do site Aqui</p>
     
 </x-main-template>

@@ -7,6 +7,7 @@
 
     --bs-link-color-rgb: 255,255,255;
     --bs-heading-color: rgb(255,255,255);
+    --bs-table-color:rgb(255,255,255);
     
     a{
         text-decoration: none;

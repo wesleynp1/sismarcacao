@@ -6,24 +6,34 @@
     </a> 
     @endauth
 
-    <div id="container-fluid container-services">
-        <div class="row container-fluid m-auto mt-4 justify-content-evenly">
-            @foreach ($services as $service)
-                <div class="service border m-1 col-12 col-sm-5 col-md-5 col-lg-3 col-xxl-2 p-0 text-wrap text-break">
-                    <a href="" class="text-wrap">
-                        <h2>{{$service->name}}</h2>
-                        <img src="{{ asset($service->image) }}" alt="" class="rounded px-4 img-fluid"/>
-                        <h2>R$ {{ str_replace(".",",",$service->price) }}</h2>
-                        <p>{!! $service->description !!}</p>
-                    </a>
-                    
-                    @auth
-                        <a href="/deletarServico/{{ $service->id }}">deletar</a>
-                        <a href="/editarServico/{{ $service->id }}">editar</a>
-                    @endauth
-                    
+    <div class="fluid-container">
+        <div id="container-services" class="row m-0 justify-content-evenly">        
+                @foreach ($services as $service)
+                <div class="p-1 col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4">
+                    <div class="service h-100">
+                        <div class="d-flex flex-column">
+                            <a href="" class="row h-100 container-fluid text-wrap text-break text-start ">
+                                <div class="col-6 d-flex align-items-center">
+                                    <img src="{{ asset($service->image) }}" alt="" class="img-fluid"/>
+                                </div>
+                                <div class="col-6 d-flex flex-column justify-content-between">
+                                    <h2>{{$service->name}}</h2>
+                                    <p class="text-justify">{!! $service->description !!}</p>                        
+                                    <h2>R$ {{ str_replace(".",",",$service->price) }}</h2>
+                                </div>                            
+                            </a>
+                            
+                            @auth
+                                <div>
+                                    <a href="/deletarServico/{{ $service->id }} " class="btn btn-danger">deletar</a>
+                                    <a href="/editarServico/{{ $service->id }}"   class="btn btn-primary">editar</a>
+                                </div>
+                            @endauth
+                        </div>
+                    </div>
                 </div>
-            @endforeach
+                @endforeach
+            </div>
         </div>
     </div>
 

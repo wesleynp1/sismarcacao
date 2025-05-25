@@ -61,16 +61,28 @@ class agendaController extends Controller
 
     
     function makeAvailable(Request $r){
-        array_map( function($newDate){
-            available_datetime::create(['date_time'=>date_create($newDate)]);
-        } ,     
-        $r->input('newAvailableDatetime'));        
+        try{
+            if(empty($r->input('newAvailableDatetime'))){
+                throw new Exception("Nada foi selecionado");
+            }
 
-        return redirect("agenda");
+            array_map( function($newDate){
+                available_datetime::create(['date_time'=>date_create($newDate)]);
+            } ,     
+            $r->input('newAvailableDatetime'));        
+
+            return redirect("agenda")->with("message","Acão realizada com sucesso!");
+        }catch(Exception $e){
+            return back()->with("message","Operação mau sucedida: ".$e->getMessage());
+        }
     }
 
     function makeUnavailable(Request $r){
         try{
+            if(empty($r->input('datesToUnavailable'))){
+                throw new Exception("Nada foi selecionado");
+            }
+
             array_map( function($dateToDelete){
                 $availableDatetimeToDelete =  available_datetime::findOrFail(date_create($dateToDelete));
                 $availableDatetimeToDelete->delete();
