@@ -65,7 +65,7 @@
                                         type="checkbox" 
                                         name="{{ 'newAvailableDatetime['. $i .']'}}" 
                                         value="{{ date('Y-m-d ') . ($i < 10 ? '0' : '') . $i . ':00:00'}}"
-                                        id="{{ 'date'. $key }}" 
+                                        id="{{ 'date'. $i }}" 
                                         class="unavailables">
                                     </td>
                                 </tr>

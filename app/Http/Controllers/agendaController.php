@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\available_datetime;
 use App\Models\scheduling;
+use DateTimeZone;
 use Exception;
 
 class agendaController extends Controller
 {
     function agenda(){
         
-        $availableDatetimes = available_datetime::all();
+        $availableDatetimes = agendaController::noExpiredAvailableDateTimes();
         $scheduledDatetimes = scheduling::all("scheduled_time");
 
         $arrayAvailableDatetimes = [];
@@ -31,10 +32,6 @@ class agendaController extends Controller
             "availableDatetimes"=>$arrayAvailableDatetimes, 
             "scheduledDatetimes"=>$arrayscheduledDatetimes
         ]);
-    }
-
-    function saveAgenda(){
-        return view("agenda.agenda",["datetimes"=>available_datetime::all()]);
     }
 
     function makeAvailableForm(){
@@ -67,6 +64,9 @@ class agendaController extends Controller
             }
 
             array_map( function($newDate){
+                if(date_create($newDate)  < date_create('now',new DateTimeZone(env('APP_TIMEZONE')))){
+                    throw new Exception("Data e horário já passaram");
+                }
                 available_datetime::create(['date_time'=>date_create($newDate)]);
             } ,     
             $r->input('newAvailableDatetime'));        
@@ -94,5 +94,17 @@ class agendaController extends Controller
             return redirect("agenda")->with("message","Operação mau sucedida: " . $e->getMessage());
         }
         
+    }
+
+    static function noExpiredAvailableDateTimes(){
+        $availableDatetimes = available_datetime::all();
+
+        foreach($availableDatetimes as $availableDatetime){
+            if(date_create($availableDatetime->date_time) < date_create('now',new DateTimeZone(env('APP_TIMEZONE')))){
+                $availableDatetime->delete();
+            }
+        }
+
+        return $availableDatetimes;
     }
 }

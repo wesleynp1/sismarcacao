@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\scheduling;
 use App\Models\service;
 use App\Models\available_datetime;
+use DateTimeZone;
 use Exception;
 
 class schedulingController extends Controller
@@ -16,6 +17,9 @@ class schedulingController extends Controller
     function createScheduling(Request $r){
         try{
             $newScheduling = $this->SchedulingValidation($r);
+            if(date_create($newScheduling->scheduled_time) < date_create('now',new DateTimeZone(env('APP_TIMEZONE')))){
+                
+            }
             available_datetime::destroy($newScheduling->scheduled_time);
             $newScheduling->save();
             return redirect("agendamentos")->with("message","agendamento realizado com sucesso!");
@@ -40,9 +44,10 @@ class schedulingController extends Controller
             $this->SchedulingValidation($r,$schedulingToBeUpdated)->save();
 
             if($schedulingToBeUpdated->scheduled_time != $r->scheduled_time){
-                $oldScheduled_time = new available_datetime();
-                $oldScheduled_time->date_time = $schedulingToBeUpdated->scheduled_time;
+                $oldScheduled_time = new available_datetime();                
+                $oldScheduled_time->date_time = $schedulingToBeUpdated->scheduled_time;                
                 available_datetime::destroy($r->scheduled_time);
+                available_datetime::noExpiredAvailableDateTimes();
             }
 
             return redirect("agendamentos")->with("message","agendamento editado com sucesso!");;
@@ -54,10 +59,13 @@ class schedulingController extends Controller
     function deleteScheduling(Request $r){
         try{
             $schedulingToDelete = scheduling::findOrFail($r->id);
-            $newAvailableDateTime = new available_datetime();
-            $newAvailableDateTime->date_time = $schedulingToDelete->scheduled_time;
 
-            $newAvailableDateTime->save();
+            if(date_create($schedulingToDelete->scheduled_time) > date_create('now',new DateTimeZone(env('APP_TIMEZONE')))){
+                $newAvailableDateTime = new available_datetime();
+                $newAvailableDateTime->date_time = $schedulingToDelete->scheduled_time;
+                $newAvailableDateTime->save();
+            }
+            
             $schedulingToDelete->delete();
             return redirect("/agendamentos")->with("message","Deletado com sucesso!");
         }catch(Exception $e){
@@ -98,7 +106,7 @@ class schedulingController extends Controller
     }
 
     function retrieveAvailableDatetime(){
-        $available_datetimes = available_datetime::all();
+        $available_datetimes = agendaController::noExpiredAvailableDateTimes();
 
         $datestimes = [];
 
@@ -117,6 +125,10 @@ class schedulingController extends Controller
                 "scheduled_time" => "required | date",
                 "serviceId" => "required"
             ]);
+
+            if(date_create($r->scheduled_time) < date_create('now',new DateTimeZone(env('APP_TIMEZONE')))){
+                throw new Exception("Sinto muito, mas a data pretendida já passou");
+            }
 
             if( isset($scheduling->scheduled_time) && $scheduling->scheduled_time != $r->scheduled_time){
                 available_datetime::findOrFail($r->scheduled_time);
