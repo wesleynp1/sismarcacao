@@ -42,7 +42,7 @@
 
             @foreach($datetimes as $datetime)
                 @if(empty($scheduling) || $datetime != $scheduling->scheduled_time)
-                    <option value="{{ $datetime }}">{{ $datetime }}</option>
+                    <option value="{{ $datetime }}">{{ date_format(date_create($datetime),"d/m/Y - H:i") }}</option>
                 @endif
             @endforeach
         </select>

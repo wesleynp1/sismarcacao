@@ -84,8 +84,24 @@
             let unavailablesCheckboxes = document.getElementsByClassName("unavailables");
 
             unavailableDateInput.onchange = (e)=>{
-                for(let unavailablesCheckbox of unavailablesCheckboxes)
-                    unavailablesCheckbox.value = unavailableDateInput.value + unavailablesCheckbox.value.slice(10,19);             
+                for(let unavailablesCheckbox of unavailablesCheckboxes){
+                    unavailablesCheckbox.value = unavailableDateInput.value + unavailablesCheckbox.value.slice(10,19);
+                    unavailablesCheckbox.hidden = false;
+                }                
+                hideBusyDateTimes();
             }
+
+
+            function hideBusyDateTimes(){
+                let dateTimesToHide = @json($busyDateTimes);
+
+                for(let unavailablesCheckbox of unavailablesCheckboxes){
+                    if(dateTimesToHide.includes(unavailablesCheckbox.value) || new Date() > new Date(unavailablesCheckbox.value)){
+                        unavailablesCheckbox.hidden = true;
+                    }
+                }
+            }
+            
+            hideBusyDateTimes();
         </script>
 </x-main-template>

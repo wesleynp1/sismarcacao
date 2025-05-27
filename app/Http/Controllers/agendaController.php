@@ -35,24 +35,27 @@ class agendaController extends Controller
     }
 
     function makeAvailableForm(){
-        $availableDatetimes = available_datetime::all();
+        $availableDatetimes = agendaController::noExpiredAvailableDateTimes();
         $scheduledDatetimes = scheduling::all("scheduled_time");
 
-        $arrayAvailableDatetimes = [];
-
+        $busyDateTimes = [];
+        
         foreach($availableDatetimes as $availableDatetime){
-            $arrayAvailableDatetimes[] = date_create($availableDatetime->date_time);
+            $busyDateTimes[] = date_format(date_create($availableDatetime->date_time),"Y-m-d H:i:s");
         }
 
         $arrayscheduledDatetimes = [];
 
         foreach($scheduledDatetimes as $scheduledDatetime){
-            $arrayscheduledDatetimes[] = date_create($scheduledDatetime->scheduled_time);
+            $dateTime   = date_create($scheduledDatetime->scheduled_time);
+            
+            $arrayscheduledDatetimes[] = $dateTime;
+            $busyDateTimes[] = date_format($dateTime,"Y-m-d H:i:s");
         }
         
         return view("agenda.makeAvailable",[
-            "availableDatetimes"=>$arrayAvailableDatetimes,
-            "scheduledDatetimes"=>$arrayscheduledDatetimes
+            "scheduledDatetimes"=>$arrayscheduledDatetimes,
+            "busyDateTimes"=>$busyDateTimes
         ]);
     }
 
