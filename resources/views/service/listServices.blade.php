@@ -1,10 +1,10 @@
 <x-main-template extraStyle="/css/list_service.css">
 
-    @auth
+    @can('isAdmin')
     <a href="/novoServico">        
             <p id="newServiceButton">+ Cadastrar Novo Servico</p>        
     </a> 
-    @endauth
+    @endcan
 
     <div class="fluid-container">
         <div id="container-services" class="row m-0 justify-content-evenly">        
@@ -23,12 +23,12 @@
                                 </div>                            
                             </a>
                             
-                            @auth
+                            @can('isAdmin')
                                 <div>
                                     <a href="/deletarServico/{{ $service->id }} " class="btn btn-danger">deletar</a>
                                     <a href="/editarServico/{{ $service->id }}"   class="btn btn-primary">editar</a>
                                 </div>
-                            @endauth
+                            @endcan
                         </div>
                     </div>
                 </div>

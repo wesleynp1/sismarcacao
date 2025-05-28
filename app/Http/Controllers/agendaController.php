@@ -7,32 +7,38 @@ use App\Models\available_datetime;
 use App\Models\scheduling;
 use DateTimeZone;
 use Exception;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class agendaController extends Controller
 {
-    function agenda(){
-        
-        $availableDatetimes = agendaController::noExpiredAvailableDateTimes();
-        $scheduledDatetimes = scheduling::all("scheduled_time");
-
+    function agenda(Request $r){
+        $availableDatetimes = agendaController::noExpiredAvailableDateTimes();  
         $arrayAvailableDatetimes = [];
 
         foreach($availableDatetimes as $availableDatetime){
             $arrayAvailableDatetimes[] = date_create($availableDatetime->date_time);
         }
 
-        $arrayscheduledDatetimes = [];
+        if(Auth::check()){
+            $arrayscheduledDatetimes = [];
 
-        foreach($scheduledDatetimes as $scheduledDatetime){
-            $arrayscheduledDatetimes[] = date_create($scheduledDatetime->scheduled_time);
+            if(Gate::allows("isAdmin")){
+                $scheduledDatetimes = scheduling::all("scheduled_time");                
+
+                foreach($scheduledDatetimes as $scheduledDatetime){
+                    $arrayscheduledDatetimes[] = date_create($scheduledDatetime->scheduled_time);
+                }
+
+                return view("agenda.agenda",[
+                "availableDatetimes"=>$arrayAvailableDatetimes,
+                "scheduledDatetimes"=>$arrayscheduledDatetimes
+                ]);
+            }
         }
-
-        
-        return view("agenda.agenda",[
-            "availableDatetimes"=>$arrayAvailableDatetimes, 
-            "scheduledDatetimes"=>$arrayscheduledDatetimes
-        ]);
+            return view("agenda.agenda",["availableDatetimes"=>$arrayAvailableDatetimes]);
     }
+        
 
     function makeAvailableForm(){
         $availableDatetimes = agendaController::noExpiredAvailableDateTimes();

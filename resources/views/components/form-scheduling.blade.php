@@ -18,11 +18,6 @@
 
 <form class="form container mt-2" id="formScheduling" action="{{ $action }}" method="post" enctype="multipart/form-data">
     @csrf
-
-    <div class="mb-3">
-        <label for="inputNome" class="form-label m-0">Nome</label>
-        <input type="text" name="client_name" id="inputClient" value="{{ isset($scheduling) ? $scheduling->client_name : '' }}" class="form-control" required>
-    </div>
     
     <div class="mb-3">
         <label for="serviceId" class="form-label m-0">Servico</label>
