@@ -8,11 +8,9 @@ use Illuminate\Support\Facades\DB;
 use App\Models\scheduling;
 use App\Models\service;
 use App\Models\available_datetime;
+use Illuminate\Support\Facades\Gate;
 use DateTimeZone;
 use Exception;
-use Illuminate\Support\Facades\Gate;
-
-use function PHPUnit\Framework\isEmpty;
 
 class schedulingController extends Controller
 {
@@ -83,7 +81,9 @@ class schedulingController extends Controller
     function deleteScheduling(Request $r){
         try{
             $schedulingToDelete = scheduling::findOrFail($r->id);
-            Gate::authorize("isTheOwner",[$schedulingToDelete]);
+            if(!Gate::allows("isAdmin")){
+                Gate::authorize("isTheOwner",[$schedulingToDelete]);
+            }
 
             if(date_create($schedulingToDelete->scheduled_time) > date_create('now',new DateTimeZone(env('APP_TIMEZONE')))){
                 $newAvailableDateTime = new available_datetime();
@@ -103,7 +103,7 @@ class schedulingController extends Controller
     function formCreateScheduling(Request $r){
         try{
             $available_dateTimes = $this->retrieveAvailableDatetime();
-            if(isEmpty($available_dateTimes)){
+            if(count($available_dateTimes)==0){
                 throw new Exception("Desculpe não temos horários dispoíveis no momento");
             }
 
@@ -135,7 +135,9 @@ class schedulingController extends Controller
     function formDeleteScheduling(Request $r){
         try{
             $schedulingForDeleting = scheduling::findOrFail($r->id);
-            Gate::authorize("isTheOwner",[$schedulingForDeleting]);
+            if(!Gate::allows("isAdmin")){
+                Gate::authorize("isTheOwner",[$schedulingForDeleting]);
+            }
 
             $schedulingForDeleting->service_name = service::findOrFail($schedulingForDeleting->serviceId)->name;
             return view("scheduling.deleteScheduling",["scheduling"=> $schedulingForDeleting]);
